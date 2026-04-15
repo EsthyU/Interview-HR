@@ -3,860 +3,618 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>HR Research Interview   Online Identity Management</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<title>HR Research Interview — Online Identity Management</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --ink: #0f1923;
-    --muted: #52606d;
-    --light: #f4f6f9;
-    --accent: #1a56db;
-    --accent2: #0e9f6e;
-    --warm: #c27803;
-    --surface: #ffffff;
-    --border: #d1d9e0;
-    --radius: 12px;
-    --shadow: 0 2px 16px rgba(15,25,35,0.07);
+    --bg: #FAF8F5;
+    --card: #FFFFFF;
+    --text: #1A1A1A;
+    --muted: #6B6560;
+    --accent: #2D5A3D;
+    --accent-light: #E8F0EB;
+    --border: #E5E0DA;
+    --input-bg: #FAFAF8;
+    --radius: 10px;
+    --shadow: 0 1px 3px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03);
   }
 
-  * { box-sizing: border-box; margin: 0; padding: 0; }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   body {
-    font-family: 'Inter', sans-serif;
-    background: var(--light);
-    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
     min-height: 100vh;
   }
 
-  /* HERO */
-  .hero {
-    background: linear-gradient(135deg, #0f1923 0%, #1a2f45 60%, #0e3d2e 100%);
-    padding: 60px 40px 52px;
-    position: relative;
-    overflow: hidden;
-  }
-  .hero::before {
-    content: '';
-    position: absolute;
-    top: -80px; right: -60px;
-    width: 380px; height: 380px;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(26,86,219,0.2) 0%, transparent 65%);
-    pointer-events: none;
-  }
-  .hero::after {
-    content: '';
-    position: absolute;
-    bottom: -50px; left: 40px;
-    width: 240px; height: 240px;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(14,159,110,0.18) 0%, transparent 65%);
-    pointer-events: none;
-  }
-  .hero-inner {
-    max-width: 780px;
+  .wrapper {
+    max-width: 680px;
     margin: 0 auto;
-    position: relative;
-    z-index: 1;
+    padding: 32px 20px 60px;
   }
-  .hero-badges {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-bottom: 22px;
+
+  /* Header */
+  .header {
+    text-align: center;
+    padding: 48px 24px 40px;
+    margin-bottom: 32px;
+    border-bottom: 1px solid var(--border);
   }
-  .badge {
+
+  .header-badge {
     display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: var(--accent-light);
+    padding: 6px 14px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+  }
+
+  .header h1 {
+    font-family: 'Source Serif 4', serif;
+    font-size: clamp(22px, 4.5vw, 30px);
+    font-weight: 600;
+    line-height: 1.3;
+    margin-bottom: 12px;
+    color: var(--text);
+  }
+
+  .header p {
+    font-size: 14px;
+    color: var(--muted);
+    max-width: 500px;
+    margin: 0 auto;
+    line-height: 1.55;
+  }
+
+  /* Country selector */
+  .country-toggle {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 20px;
+  }
+  .country-btn {
+    display: flex;
     align-items: center;
     gap: 6px;
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    padding: 5px 13px;
-    border-radius: 20px;
-  }
-  .badge-blue {
-    background: rgba(26,86,219,0.2);
-    color: #93b4fd;
-    border: 1px solid rgba(26,86,219,0.35);
-  }
-  .badge-green {
-    background: rgba(14,159,110,0.2);
-    color: #6ee7b7;
-    border: 1px solid rgba(14,159,110,0.3);
-  }
-  .badge-warm {
-    background: rgba(194,120,3,0.2);
-    color: #fcd34d;
-    border: 1px solid rgba(194,120,3,0.3);
-  }
-  .hero h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(24px, 4.5vw, 40px);
-    color: #ffffff;
-    line-height: 1.2;
-    margin-bottom: 14px;
-  }
-  .hero h1 span { color: #6ee7b7; font-style: italic; }
-  .hero-sub {
-    color: rgba(255,255,255,0.5);
-    font-size: 14px;
-    font-weight: 300;
-    margin-bottom: 28px;
-    line-height: 1.6;
-  }
-  .hero-flags {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    flex-wrap: wrap;
-  }
-  .flag-pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 7px;
-    background: rgba(255,255,255,0.08);
-    border: 1px solid rgba(255,255,255,0.14);
-    border-radius: 8px;
-    padding: 8px 16px;
-    color: rgba(255,255,255,0.75);
+    padding: 8px 18px;
+    border: 1.5px solid var(--border);
+    border-radius: 24px;
+    background: var(--card);
+    font-family: inherit;
     font-size: 13px;
     font-weight: 500;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.2s;
   }
-  .flag { font-size: 18px; }
+  .country-btn:hover { border-color: var(--accent); color: var(--text); }
+  .country-btn.active {
+    border-color: var(--accent);
+    background: var(--accent-light);
+    color: var(--accent);
+    font-weight: 600;
+  }
 
-  /* PROGRESS */
-  .progress-wrap {
-    background: var(--surface);
-    border-bottom: 1px solid var(--border);
-    padding: 13px 40px;
+  /* Progress */
+  .progress-bar {
     position: sticky;
     top: 0;
     z-index: 100;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+    background: var(--bg);
+    padding: 12px 0 8px;
   }
-  .progress-inner {
-    max-width: 780px;
-    margin: 0 auto;
-    display: flex;
-    align-items: center;
-    gap: 14px;
-  }
-  .progress-label {
-    font-size: 11.5px;
-    font-weight: 600;
-    color: var(--muted);
-    white-space: nowrap;
-  }
-  .progress-bar {
-    flex: 1;
-    height: 5px;
+  .progress-track {
+    height: 3px;
     background: var(--border);
-    border-radius: 10px;
+    border-radius: 3px;
     overflow: hidden;
   }
   .progress-fill {
     height: 100%;
-    background: linear-gradient(90deg, var(--accent), var(--accent2));
-    border-radius: 10px;
+    background: var(--accent);
+    border-radius: 3px;
     width: 0%;
     transition: width 0.4s ease;
   }
-  .progress-pct {
-    font-size: 12px;
-    font-weight: 700;
-    color: var(--accent);
-    min-width: 34px;
+  .progress-label {
+    font-size: 11px;
+    color: var(--muted);
     text-align: right;
+    margin-top: 4px;
   }
 
-  /* MAIN */
-  .main {
-    max-width: 780px;
-    margin: 0 auto;
-    padding: 40px 20px 80px;
-  }
-
-  /* INFO BOX */
+  /* Info box */
   .info-box {
-    background: var(--surface);
+    background: var(--card);
     border: 1px solid var(--border);
     border-radius: var(--radius);
-    padding: 28px 32px;
+    padding: 20px 24px;
     margin-bottom: 28px;
     box-shadow: var(--shadow);
   }
   .info-box h2 {
-    font-family: 'Playfair Display', serif;
-    font-size: 19px;
-    color: var(--ink);
-    margin-bottom: 14px;
-  }
-  .info-box p {
-    font-size: 14px;
-    color: var(--muted);
-    line-height: 1.75;
+    font-family: 'Source Serif 4', serif;
+    font-size: 16px;
+    font-weight: 600;
     margin-bottom: 10px;
   }
-  .info-box p:last-child { margin-bottom: 0; }
-  .info-box strong { color: var(--ink); }
-
-  .steps-list {
-    list-style: none;
-    margin-top: 16px;
-    display: flex;
-    flex-direction: column;
-    gap: 9px;
-  }
-  .steps-list li {
-    display: flex;
-    align-items: flex-start;
-    gap: 11px;
+  .info-box p {
     font-size: 13.5px;
     color: var(--muted);
     line-height: 1.6;
   }
-  .step-dot {
-    width: 21px; height: 21px;
+  .info-list {
+    list-style: none;
+    margin-top: 12px;
+    display: grid;
+    gap: 6px;
+  }
+  .info-list li {
+    font-size: 13px;
+    color: var(--muted);
+    padding-left: 18px;
+    position: relative;
+  }
+  .info-list li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 7px;
+    width: 6px;
+    height: 6px;
     border-radius: 50%;
-    background: linear-gradient(135deg, var(--accent), var(--accent2));
-    color: white;
-    font-size: 10px;
-    font-weight: 700;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    margin-top: 1px;
+    background: var(--accent);
+    opacity: 0.5;
   }
 
-  /* CONSENT */
-  .consent-box {
-    background: linear-gradient(135deg, #eef3ff 0%, #edfaf4 100%);
-    border: 1.5px solid var(--border);
+  /* Consent */
+  .consent-section {
+    background: var(--card);
+    border: 1px solid var(--border);
     border-radius: var(--radius);
-    padding: 28px 32px;
+    padding: 20px 24px;
     margin-bottom: 28px;
+    box-shadow: var(--shadow);
   }
-  .consent-box h2 {
-    font-family: 'Playfair Display', serif;
-    font-size: 19px;
-    color: var(--ink);
-    margin-bottom: 16px;
+  .consent-section h2 {
+    font-family: 'Source Serif 4', serif;
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 12px;
   }
-  .consent-items {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 9px;
-    margin-bottom: 24px;
-  }
-  .consent-items li {
+  .consent-item {
     display: flex;
     align-items: flex-start;
     gap: 10px;
-    font-size: 13.5px;
-    color: var(--muted);
-    line-height: 1.6;
-  }
-  .consent-items li::before {
-    content: '✓';
-    color: var(--accent2);
-    font-weight: 700;
+    margin-bottom: 10px;
     font-size: 13px;
-    margin-top: 1px;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+  .consent-item input[type="checkbox"] {
+    margin-top: 3px;
+    accent-color: var(--accent);
     flex-shrink: 0;
   }
-  .consent-fields {
+
+  /* Demographics row */
+  .demo-row {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-    gap: 14px;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 16px;
   }
-  @media (max-width: 600px) {
-    .consent-fields { grid-template-columns: 1fr 1fr; }
+  @media (max-width: 480px) {
+    .demo-row { grid-template-columns: 1fr; }
   }
-  @media (max-width: 400px) {
-    .consent-fields { grid-template-columns: 1fr; }
+  .demo-row label {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--muted);
+    display: block;
+    margin-bottom: 4px;
+  }
+  .demo-row select, .demo-row input[type="text"] {
+    width: 100%;
+    padding: 9px 12px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--input-bg);
+    font-family: inherit;
+    font-size: 13px;
+    color: var(--text);
+    appearance: auto;
   }
 
-  /* SECTION */
-  .section { margin-bottom: 32px; }
-
-  .section-header {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    margin-bottom: 18px;
-    padding: 16px 22px;
-    background: var(--ink);
-    border-radius: 10px;
-    position: relative;
-    overflow: hidden;
-  }
-  .section-header::after {
-    content: '';
-    position: absolute;
-    right: -20px; top: -30px;
-    width: 100px; height: 100px;
-    border-radius: 50%;
-    background: rgba(255,255,255,0.03);
-    pointer-events: none;
+  /* Sections */
+  .section {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 28px 24px;
+    margin-bottom: 20px;
+    box-shadow: var(--shadow);
   }
   .section-num {
-    width: 34px; height: 34px;
-    border-radius: 9px;
-    background: linear-gradient(135deg, var(--accent), var(--accent2));
-    color: white;
-    font-size: 14px;
-    font-weight: 700;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    font-family: 'Playfair Display', serif;
-  }
-  .section-title { font-family: 'Playfair Display', serif; font-size: 17px; color: #fff; }
-  .section-desc { font-size: 12px; color: rgba(255,255,255,0.45); margin-top: 2px; font-style: italic; }
-
-  /* QUESTION CARDS */
-  .q-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 24px 26px;
-    margin-bottom: 14px;
-    box-shadow: var(--shadow);
-    transition: border-color 0.2s, box-shadow 0.2s;
-  }
-  .q-card:focus-within {
-    border-color: var(--accent);
-    box-shadow: 0 0 0 3px rgba(26,86,219,0.09), var(--shadow);
-  }
-  .q-num {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 27px; height: 27px;
-    border-radius: 7px;
-    background: #eef3ff;
-    border: 1.5px solid #c7d7fd;
-    font-size: 11.5px;
-    font-weight: 700;
-    color: var(--accent);
-    margin-bottom: 11px;
-  }
-  .q-text {
-    font-size: 15px;
-    font-weight: 500;
-    color: var(--ink);
-    line-height: 1.65;
-    margin-bottom: 9px;
-  }
-  .q-sub {
-    font-size: 13px;
-    color: var(--muted);
-    font-style: italic;
-    margin-bottom: 14px;
-    padding-left: 13px;
-    border-left: 2px solid #d1d9e0;
-    line-height: 1.65;
-  }
-
-  /* INPUTS */
-  label.field-label {
-    display: block;
     font-size: 11px;
     font-weight: 600;
-    letter-spacing: 0.09em;
+    letter-spacing: 0.06em;
     text-transform: uppercase;
-    color: var(--muted);
+    color: var(--accent);
+    margin-bottom: 4px;
+  }
+  .section-title {
+    font-family: 'Source Serif 4', serif;
+    font-size: 17px;
+    font-weight: 600;
     margin-bottom: 6px;
   }
-  input[type="text"], textarea, select {
-    width: 100%;
-    border: 1.5px solid var(--border);
-    border-radius: 9px;
-    padding: 11px 15px;
-    font-family: 'Inter', sans-serif;
+  .section-desc {
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 20px;
+    line-height: 1.5;
+  }
+
+  /* Questions */
+  .question {
+    margin-bottom: 22px;
+  }
+  .question:last-child { margin-bottom: 0; }
+  .q-label {
     font-size: 14px;
-    color: var(--ink);
-    background: var(--surface);
-    transition: border-color 0.2s, box-shadow 0.2s;
-    outline: none;
-    resize: vertical;
-  }
-  input[type="text"]:focus, textarea:focus, select:focus {
-    border-color: var(--accent);
-    box-shadow: 0 0 0 3px rgba(26,86,219,0.1);
-  }
-  input[type="text"]::placeholder, textarea::placeholder { color: #b0bec5; }
-  textarea { min-height: 110px; }
-  textarea.tall { min-height: 155px; }
-
-  /* OPTIONAL */
-  .optional-section {
-    background: #fffdf3;
-    border: 1.5px dashed #e6d48a;
-    border-radius: var(--radius);
-    padding: 22px 26px;
-    margin-bottom: 14px;
-  }
-  .optional-tag {
-    display: inline-block;
-    background: #fff3cd;
-    color: #856404;
-    font-size: 10.5px;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    padding: 3px 11px;
-    border-radius: 20px;
-    margin-bottom: 12px;
-    border: 1px solid #e6d48a;
-  }
-
-  /* ANYTHING ELSE */
-  .anything-box {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 24px 26px;
-    margin-bottom: 28px;
-    box-shadow: var(--shadow);
-  }
-  .anything-box h3 {
-    font-family: 'Playfair Display', serif;
-    font-size: 19px;
+    font-weight: 500;
+    line-height: 1.5;
     margin-bottom: 8px;
+    color: var(--text);
   }
-  .anything-box p { font-size: 13.5px; color: var(--muted); margin-bottom: 14px; }
+  .q-hint {
+    font-size: 12.5px;
+    color: var(--muted);
+    margin-bottom: 8px;
+    font-style: italic;
+  }
+  textarea {
+    width: 100%;
+    min-height: 100px;
+    padding: 12px 14px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--input-bg);
+    font-family: inherit;
+    font-size: 13.5px;
+    line-height: 1.55;
+    color: var(--text);
+    resize: vertical;
+    transition: border-color 0.2s;
+  }
+  textarea:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(45,90,61,0.08);
+  }
+  textarea.short { min-height: 70px; }
 
-  /* SUBMIT */
-  .submit-area {
-    background: linear-gradient(135deg, #0f1923 0%, #1a2f45 60%, #0e3d2e 100%);
-    border-radius: var(--radius);
-    padding: 36px 32px;
+  /* Submit */
+  .submit-wrap {
     text-align: center;
-    position: relative;
-    overflow: hidden;
+    margin-top: 32px;
   }
-  .submit-area::before {
-    content: '';
-    position: absolute;
-    top: -50px; left: -50px;
-    width: 200px; height: 200px;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(26,86,219,0.18) 0%, transparent 70%);
-  }
-  .submit-area::after {
-    content: '';
-    position: absolute;
-    bottom: -40px; right: -40px;
-    width: 180px; height: 180px;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(14,159,110,0.15) 0%, transparent 70%);
-  }
-  .submit-area > * { position: relative; z-index: 1; }
-  .submit-area p { font-family: 'Playfair Display', serif; font-size: 22px; color: #fff; margin-bottom: 6px; }
-  .submit-area small { display: block; font-size: 13px; color: rgba(255,255,255,0.45); margin-bottom: 26px; }
   .submit-btn {
     display: inline-flex;
     align-items: center;
-    gap: 10px;
-    background: linear-gradient(135deg, var(--accent), var(--accent2));
-    color: white;
-    font-family: 'Inter', sans-serif;
-    font-size: 14.5px;
-    font-weight: 600;
+    gap: 8px;
+    padding: 14px 36px;
+    background: var(--accent);
+    color: #fff;
     border: none;
-    border-radius: 10px;
-    padding: 15px 34px;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 600;
     cursor: pointer;
-    transition: transform 0.15s, box-shadow 0.15s;
-    box-shadow: 0 4px 18px rgba(26,86,219,0.35);
-    letter-spacing: 0.02em;
+    transition: background 0.2s, transform 0.1s;
   }
-  .submit-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 26px rgba(26,86,219,0.42); }
-  .submit-btn:active { transform: translateY(0); }
+  .submit-btn:hover { background: #234A30; }
+  .submit-btn:active { transform: scale(0.98); }
 
-  /* TOAST */
-  .toast {
-    position: fixed;
-    bottom: 28px; left: 50%;
-    transform: translateX(-50%) translateY(100px);
-    background: #0f1923;
-    color: white;
-    padding: 13px 24px;
-    border-radius: 10px;
-    font-size: 13.5px;
-    font-weight: 500;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    box-shadow: 0 8px 28px rgba(0,0,0,0.25);
-    z-index: 9999;
-    transition: transform 0.35s cubic-bezier(.34,1.56,.64,1);
+  .thank-you {
+    display: none;
+    text-align: center;
+    padding: 48px 24px;
   }
-  .toast.show { transform: translateX(-50%) translateY(0); }
-  .toast-check {
-    width: 21px; height: 21px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, var(--accent), var(--accent2));
-    display: flex; align-items: center; justify-content: center;
-    font-size: 11px; flex-shrink: 0;
+  .thank-you.show { display: block; }
+  .thank-you h2 {
+    font-family: 'Source Serif 4', serif;
+    font-size: 24px;
+    margin-bottom: 12px;
+    color: var(--accent);
+  }
+  .thank-you p {
+    font-size: 14px;
+    color: var(--muted);
   }
 
-  @media (max-width: 600px) {
-    .hero { padding: 40px 18px 36px; }
-    .progress-wrap { padding: 11px 18px; }
-    .main { padding: 26px 14px 60px; }
-    .q-card, .info-box, .consent-box { padding: 18px 16px; }
-    .section-header { padding: 13px 16px; }
-    .submit-area { padding: 26px 18px; }
+  .form-content { display: block; }
+  .form-content.hidden { display: none; }
+
+  /* Divider between questions */
+  .q-divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 20px 0;
   }
 </style>
 </head>
 <body>
+<div class="wrapper">
 
-<!-- HERO -->
-<div class="hero">
-  <div class="hero-inner">
-    <div class="hero-badges">
-      <span class="badge badge-blue">HR &amp; Recruiters</span>
-      <span class="badge badge-green">Qualitative Research</span>
-      <span class="badge badge-warm">Self-completion Format</span>
-    </div>
-    <h1>Online Identity Management &amp;<br><span>Professional Branding</span> Among Engineers</h1>
-    <p class="hero-sub">Research Interview · Please complete in your own time and return by the agreed date.<br>Your professional perspective is the most valuable thing here.</p>
-    <div class="hero-flags">
-      <div class="flag-pill"><span class="flag">🇷🇴</span> Romania</div>
-      <div class="flag-pill"><span class="flag">🇳🇬</span> Nigeria</div>
-    </div>
-  </div>
-</div>
-
-<!-- PROGRESS -->
-<div class="progress-wrap">
-  <div class="progress-inner">
-    <span class="progress-label">Progress</span>
-    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
-    <span class="progress-pct" id="progressPct">0%</span>
-  </div>
-</div>
-
-<div class="main">
-
-  <!-- NOTE -->
-  <div class="info-box">
-    <h2>To the Participant</h2>
-    <p>Thank you for agreeing to take part in this research. This form contains interview questions for a study on how engineers' online professional identities   particularly on LinkedIn and similar platforms   are evaluated during hiring processes.</p>
-    <p>Please read each question carefully and write your responses in the fields provided. <strong>You do not need to answer all questions</strong> if some do not apply to your experience   simply write "not applicable" or leave the field blank.</p>
-    <p>There are no right or wrong answers. I am interested in your professional reasoning and lived experience, not textbook answers.</p>
-    <ul class="steps-list">
-      <li><div class="step-dot">1</div> Complete in one sitting or across several sessions   no time limit</li>
-      <li><div class="step-dot">2</div> Write as much or as little as you feel comfortable with</li>
-      <li><div class="step-dot">3</div> If a question prompts a follow-up thought, add it at the end</li>
-      <li><div class="step-dot">4</div> Your name and any identifying details will be anonymised before analysis</li>
-    </ul>
-  </div>
-
-  <!-- CONSENT -->
-  <div class="consent-box">
-    <h2>Consent</h2>
-    <ul class="consent-items">
-      <li>You have read and understood the purpose of this study.</li>
-      <li>Your participation is voluntary and you may withdraw at any time without consequence.</li>
-      <li>Your responses will be used only for research purposes and will be anonymised in all reporting.</li>
-      <li>You are happy for your written responses to be quoted (without identifying you) in research outputs.</li>
-    </ul>
-    <div class="consent-fields">
-      <div>
-        <label class="field-label">Participant name (optional)</label>
-        <input type="text" name="participant_name" placeholder="Your name" />
-      </div>
-      <div>
-        <label class="field-label">Country</label>
-        <select name="country">
-          <option value="" disabled selected>Select country</option>
-          <option value="Romania">Romania</option>
-          <option value="Nigeria">Nigeria</option>
-          <option value="Other">Other</option>
-        </select>
-      </div>
-      <div>
-        <label class="field-label">Gender</label>
-        <select name="gender">
-          <option value="" disabled selected>Select gender</option>
-          <option value="Male">Male</option>
-          <option value="Female">Female</option>
-        </select>
-      </div>
-      <div>
-        <label class="field-label">Date completed</label>
-        <input type="text" name="date" id="dateField" placeholder="DD/MM/YYYY" />
-      </div>
+  <!-- Header -->
+  <div class="header">
+    <div class="header-badge">HR &amp; Recruiters &middot; Qualitative Research</div>
+    <h1>Online Identity Management &amp; Professional Branding Among Engineers</h1>
+    <p>Research interview for HR and recruitment professionals. Self-completion format; approximately 15 to 20 minutes.</p>
+    <div class="country-toggle">
+      <button class="country-btn" data-country="Romania" onclick="selectCountry(this)">&#x1F1F7;&#x1F1F4; Romania</button>
+      <button class="country-btn" data-country="Nigeria" onclick="selectCountry(this)">&#x1F1F3;&#x1F1EC; Nigeria</button>
     </div>
   </div>
 
-  <!-- SECTION 1 -->
-  <div class="section">
-    <div class="section-header">
-      <div class="section-num">1</div>
-      <div>
+  <!-- Progress -->
+  <div class="progress-bar">
+    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="progress-label" id="progressLabel">0% complete</div>
+  </div>
+
+  <form id="interviewForm" action="https://formspree.io/f/mjgjgooo" method="POST">
+    <div class="form-content" id="formContent">
+
+      <!-- Instructions -->
+      <div class="info-box">
+        <h2>Before you begin</h2>
+        <p>This interview explores how engineering candidates' online professional identities are perceived during hiring. There are no right or wrong answers. I am interested in your professional reasoning and lived experience.</p>
+        <ul class="info-list">
+          <li>No time limit; complete at your own pace</li>
+          <li>Write as much or as little as you are comfortable with</li>
+          <li>Skip any question that does not apply to your experience</li>
+          <li>All responses are anonymised before analysis</li>
+        </ul>
+      </div>
+
+      <!-- Consent -->
+      <div class="consent-section">
+        <h2>Consent</h2>
+        <div class="consent-item">
+          <input type="checkbox" name="consent_purpose" required>
+          <span>I understand the purpose of this study and that participation is voluntary.</span>
+        </div>
+        <div class="consent-item">
+          <input type="checkbox" name="consent_data" required>
+          <span>I agree that my responses will be anonymised and used for research purposes only.</span>
+        </div>
+        <div class="consent-item">
+          <input type="checkbox" name="consent_quote" required>
+          <span>I am happy for my written responses to be quoted without identifying me.</span>
+        </div>
+
+        <div class="demo-row">
+          <div>
+            <label>Name (optional)</label>
+            <input type="text" name="participant_name" placeholder="For follow-up only">
+          </div>
+          <div>
+            <label>Country</label>
+            <select name="country" required>
+              <option value="">Select</option>
+              <option value="Romania">Romania</option>
+              <option value="Nigeria">Nigeria</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+        </div>
+        <div class="demo-row" style="margin-top:8px">
+          <div>
+            <label>Gender</label>
+            <select name="gender" required>
+              <option value="">Select</option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+            </select>
+          </div>
+          <div>
+            <label>Date</label>
+            <input type="text" name="date_completed" placeholder="DD/MM/YYYY">
+          </div>
+        </div>
+      </div>
+
+      <!-- SECTION 1: Background -->
+      <div class="section">
+        <div class="section-num">Section 1</div>
         <div class="section-title">Your Background</div>
-        <div class="section-desc">These questions help me understand your professional context. They are not evaluative.</div>
+        <div class="section-desc">Your professional context and hiring experience.</div>
+
+        <div class="question">
+          <div class="q-label">1. What is your current role and organisation? What types of engineering positions do you typically hire for, and in which markets or regions?</div>
+          <textarea name="q1_background" placeholder="Your response..."></textarea>
+        </div>
+
+        <hr class="q-divider">
+
+        <div class="question">
+          <div class="q-label">2. Roughly how many engineering hires have you been involved in over the past two to three years, and at what seniority levels (junior, mid, senior)?</div>
+          <textarea name="q2_hiring_volume" class="short" placeholder="Your response..."></textarea>
+        </div>
       </div>
-    </div>
 
-    <div class="q-card">
-      <div class="q-num">1</div>
-      <div class="q-text">Please describe your current role and your organisation. What types of engineering positions do you hire for, and at what seniority levels?</div>
-      <div class="q-sub">Which markets or regions do you recruit in?</div>
-      <textarea name="q1" class="tall" placeholder="Describe your role, organisation, and the types of engineering positions you hire for…"></textarea>
-    </div>
+      <!-- SECTION 2: Hiring Workflow & Platform Use -->
+      <div class="section">
+        <div class="section-num">Section 2</div>
+        <div class="section-title">Hiring Workflow and Platform Use</div>
+        <div class="section-desc">How online presence fits into your screening process.</div>
 
-    <div class="q-card">
-      <div class="q-num">2</div>
-      <div class="q-text">Roughly how many engineering hires have you been involved in over the past two to three years?</div>
-      <div class="q-sub">Were these mainly junior, mid-level, or senior roles?</div>
-      <textarea name="q2" placeholder="Share an approximate number and the breakdown by seniority level…"></textarea>
-    </div>
-  </div>
+        <div class="question">
+          <div class="q-label">3. At what stage of your hiring process do you check a candidate's online presence, and is this routine or situational?</div>
+          <textarea name="q3_workflow" placeholder="Your response..."></textarea>
+        </div>
 
-  <!-- SECTION 2 -->
-  <div class="section">
-    <div class="section-header">
-      <div class="section-num">2</div>
-      <div>
-        <div class="section-title">Your Hiring Workflow</div>
-        <div class="section-desc">How you approach the hiring process from start to shortlist.</div>
+        <hr class="q-divider">
+
+        <div class="question">
+          <div class="q-label">4. Which platforms do you check for engineering candidates (for example LinkedIn, GitHub, personal portfolios, or others), and why those particular ones?</div>
+          <textarea name="q4_platforms" placeholder="Your response..."></textarea>
+        </div>
       </div>
-    </div>
 
-    <div class="q-card">
-      <div class="q-num">3</div>
-      <div class="q-text">Walk me through your typical hiring workflow from receiving an application to creating a shortlist. At what point, if at all, do you check a candidate's online presence?</div>
-      <div class="q-sub">Is this a routine step or something you do only in certain situations?</div>
-      <textarea name="q3" class="tall" placeholder="Describe your process step by step, and where online checks fit in…"></textarea>
-    </div>
-
-    <div class="q-card">
-      <div class="q-num">4</div>
-      <div class="q-text">Which online platforms do you check for engineering candidates   for example LinkedIn, GitHub, personal portfolios, ResearchGate, or others   and why those particular ones?</div>
-      <div class="q-sub">Are there platforms you have tried and found unhelpful or stopped using?</div>
-      <textarea name="q4" class="tall" placeholder="List the platforms you use and explain your reasoning for each…"></textarea>
-    </div>
-  </div>
-
-  <!-- SECTION 3 -->
-  <div class="section">
-    <div class="section-header">
-      <div class="section-num">3</div>
-      <div>
+      <!-- SECTION 3: Profile Evaluation -->
+      <div class="section">
+        <div class="section-num">Section 3</div>
         <div class="section-title">Evaluating Online Profiles</div>
-        <div class="section-desc">How you read and interpret what you find online.</div>
+        <div class="section-desc">How you read and interpret what you find.</div>
+
+        <div class="question">
+          <div class="q-label">5. When you look at a candidate's online profile for the first time, what are the first things you check to judge their credibility and suitability? What separates a strong profile from a weak one?</div>
+          <textarea name="q5_evaluation" placeholder="Your response..."></textarea>
+        </div>
+
+        <hr class="q-divider">
+
+        <div class="question">
+          <div class="q-label">6. Has information from a candidate's online presence ever changed a hiring decision you were already leaning toward? What happened?</div>
+          <textarea name="q6_decision_impact" placeholder="Your response..."></textarea>
+        </div>
       </div>
-    </div>
 
-    <div class="q-card">
-      <div class="q-num">5</div>
-      <div class="q-text">When you open a candidate's profile for the first time, what are the first three to five things you look at to judge their credibility and fit? Why do those things matter to you?</div>
-      <div class="q-sub">Can you walk through a recent example   what did you look at, and in what order?</div>
-      <textarea name="q5" class="tall" placeholder="Describe your first-impression checklist and walk through a concrete example…"></textarea>
-    </div>
+      <!-- SECTION 4: Credibility & Authenticity -->
+      <div class="section">
+        <div class="section-num">Section 4</div>
+        <div class="section-title">Credibility, Trust, and Status Signals</div>
+        <div class="section-desc">How you judge what is genuine online.</div>
 
-    <div class="q-card">
-      <div class="q-num">6</div>
-      <div class="q-text">What separates a strong online professional profile from a weak one for engineers? Please describe examples of each from your experience.</div>
-      <div class="q-sub">What made the strong profile stand out? Was the weak profile a dealbreaker, or just a neutral factor?</div>
-      <textarea name="q6" class="tall" placeholder="Contrast a strong and weak profile you have encountered, with as much detail as you can share…"></textarea>
-    </div>
-
-    <div class="q-card">
-      <div class="q-num">7</div>
-      <div class="q-text">How do you actually use information from a candidate's online presence during screening and evaluation? In what situations does it help you, and when does it raise concerns?</div>
-      <div class="q-sub">Has a candidate's online presence ever changed a decision you were already leaning toward? What happened?</div>
-      <textarea name="q7" class="tall" placeholder="Describe how online profiles influence your decisions, with a specific example if possible…"></textarea>
-    </div>
-  </div>
-
-  <!-- SECTION 4 -->
-  <div class="section">
-    <div class="section-header">
-      <div class="section-num">4</div>
-      <div>
-        <div class="section-title">Credibility, Trust &amp; Status Signals</div>
-        <div class="section-desc">How you judge whether what you see online is genuine, and what signals carry weight.</div>
+        <div class="question">
+          <div class="q-label">7. What makes you trust that a profile is accurate and authentic? What patterns make you suspect exaggeration, and which status signals (for example well known employers, certifications, or follower counts) do you take seriously versus treat with scepticism?</div>
+          <textarea name="q7_credibility" placeholder="Your response..."></textarea>
+        </div>
       </div>
-    </div>
 
-    <div class="q-card">
-      <div class="q-num">8</div>
-      <div class="q-text">Do status or prestige signals show up in your evaluation? For example: well-known employers, prestigious universities, certifications, awards, or international experience. Which feel like meaningful indicators, and which feel like noise or even a red flag?</div>
-      <div class="q-sub">Is there a signal that looks impressive but that you have learned not to trust?</div>
-      <textarea name="q8" class="tall" placeholder="Discuss the signals you weigh and any you have learned to be sceptical of…"></textarea>
-    </div>
+      <!-- SECTION 5: Personal Branding -->
+      <div class="section">
+        <div class="section-num">Section 5</div>
+        <div class="section-title">Personal Branding and Self-Presentation</div>
+        <div class="section-desc">How deliberate visibility efforts come across to you.</div>
 
-    <div class="q-card">
-      <div class="q-num">9</div>
-      <div class="q-text">What makes you trust that a candidate's profile is accurate and authentic? What patterns make you suspect exaggeration or inflated claims?</div>
-      <div class="q-sub">What is the exact detail that triggers doubt for you?</div>
-      <textarea name="q9" placeholder="Describe the trust cues and the red flags you watch for…"></textarea>
-    </div>
+        <div class="question">
+          <div class="q-label">8. What kinds of personal branding behaviours do you notice among engineering candidates (for example frequent posting, curated achievement highlights, or collecting certifications)? When does this come across as credible versus performative?</div>
+          <textarea name="q8_branding" placeholder="Your response..."></textarea>
+        </div>
 
-    <div class="q-card">
-      <div class="q-num">10</div>
-      <div class="q-text">Do you pay attention to platform-level signals   for example follower count, post engagement, or posting frequency? If so, how do you interpret them?</div>
-      <div class="q-sub">Is a high follower count a positive signal, a neutral one, or something that gives you pause?</div>
-      <textarea name="q10" placeholder="Explain how you interpret engagement metrics and whether they factor into your assessment…"></textarea>
-    </div>
-  </div>
+        <hr class="q-divider">
 
-  <!-- SECTION 5 -->
-  <div class="section">
-    <div class="section-header">
-      <div class="section-num">5</div>
-      <div>
-        <div class="section-title">Personal Branding &amp; Visibility Behaviours</div>
-        <div class="section-desc">How you interpret candidates' deliberate self-presentation online.</div>
+        <div class="question">
+          <div class="q-label">9. If you have experience hiring across different markets or cultural contexts, have you noticed differences in what is considered a credible online professional presence?</div>
+          <div class="q-hint">Skip this question if it does not apply to your experience.</div>
+          <textarea name="q9_cultural" placeholder="Your response..."></textarea>
+        </div>
       </div>
-    </div>
 
-    <div class="q-card">
-      <div class="q-num">11</div>
-      <div class="q-text">What kinds of visibility or personal branding behaviours do you notice among candidates   for example frequent posting, collecting certifications, or carefully curated achievement highlights? How do you interpret those behaviours when you see them?</div>
-      <div class="q-sub">Does it change your view if the activity seems very recent or appears to have started just before a job search? Is there a version of this behaviour you find credible versus one that feels performative?</div>
-      <textarea name="q11" class="tall" placeholder="Describe personal branding patterns you observe, and how you distinguish authentic from performative…"></textarea>
-    </div>
-
-    <div class="q-card">
-      <div class="q-num">12</div>
-      <div class="q-text">If you have hired across different markets   or have knowledge of how hiring differs between contexts like Nigeria and Romania, or local versus international markets   have you noticed differences in what is considered credible online?</div>
-      <div class="q-sub">Are there signals that read well in one context but raise questions in another? Skip this question if it does not apply to your experience.</div>
-      <textarea name="q12" class="tall" placeholder="Compare credibility signals across the contexts you have worked in, if applicable…"></textarea>
-    </div>
-  </div>
-
-  <!-- SECTION 6 -->
-  <div class="section">
-    <div class="section-header">
-      <div class="section-num">6</div>
-      <div>
+      <!-- SECTION 6: Advice -->
+      <div class="section">
+        <div class="section-num">Section 6</div>
         <div class="section-title">Practical Advice</div>
-        <div class="section-desc">Reflecting and synthesising your experience.</div>
+        <div class="section-desc">Drawing on your experience.</div>
+
+        <div class="question">
+          <div class="q-label">10. If you could give engineers three concrete rules for building an online presence that supports their hiring outcomes, what would they be?</div>
+          <textarea name="q10_advice" placeholder="Your response..."></textarea>
+        </div>
+
+        <hr class="q-divider">
+
+        <div class="question">
+          <div class="q-label">Is there anything else you would like to add that the questions did not cover?</div>
+          <div class="q-hint">Optional</div>
+          <textarea name="q_additional" class="short" placeholder="Any additional thoughts..."></textarea>
+        </div>
       </div>
-    </div>
 
-    <div class="q-card">
-      <div class="q-num">13</div>
-      <div class="q-text">If you could give engineers three concrete, practical rules for building an online presence that genuinely supports their hiring outcomes, what would they be?</div>
-      <div class="q-sub">Is there anything you wish more candidates understood about how their profiles are actually read?</div>
-      <textarea name="q13" class="tall" placeholder="Share your top three rules and any insider knowledge you wish candidates had…"></textarea>
-    </div>
-  </div>
-
-  <!-- OPTIONAL -->
-  <div class="section">
-    <div class="section-header">
-      <div class="section-num" style="background: linear-gradient(135deg,#c27803,#d97706);">?</div>
-      <div>
-        <div class="section-title">Optional Question</div>
-        <div class="section-desc">Answer only if time allows or if it is relevant to your experience.</div>
+      <!-- Submit -->
+      <div class="submit-wrap">
+        <button type="submit" class="submit-btn">Submit Responses</button>
       </div>
-    </div>
 
-    <div class="optional-section">
-      <div class="optional-tag">Optional</div>
-      <div class="q-text" style="margin-bottom:10px;">Tell me about a case where a candidate had a strong CV but a weak online presence (or the reverse). What happened and why? What was the outcome?</div>
-      <textarea name="q_optional" class="tall" placeholder="Share the story with as much detail as you are comfortable providing…"></textarea>
-    </div>
+    </div><!-- /form-content -->
+  </form>
+
+  <!-- Thank You -->
+  <div class="thank-you" id="thankYou">
+    <h2>Thank you</h2>
+    <p>Your responses are genuinely valuable to this research.</p>
   </div>
 
-  <!-- ANYTHING ELSE -->
-  <div class="anything-box">
-    <h3>Anything Else?</h3>
-    <p>Is there anything the questions did not give you room to say? Any additional thoughts, corrections, or context you would like to add?</p>
-    <textarea name="anything_else" class="tall" placeholder="Add any final thoughts, corrections, or context here…"></textarea>
-  </div>
-
-  <!-- SUBMIT -->
-  <div class="submit-area">
-    <p>Thank you.</p>
-    <small>Your responses are genuinely valuable to this research.</small>
-    <br>
-    <button class="submit-btn" onclick="handleSubmit()">
-      <svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="m22 2-7 20-4-9-9-4z"/><path d="m22 2-11 11"/></svg>
-      Submit Responses
-    </button>
-  </div>
-
-</div>
-
-<!-- TOAST -->
-<div class="toast" id="toast">
-  <div class="toast-check">✓</div>
-  <span id="toastMsg">Responses submitted successfully!</span>
 </div>
 
 <script>
-  // Auto-fill date
-  const today = new Date();
-  document.getElementById('dateField').value =
-    String(today.getDate()).padStart(2,'0') + '/' +
-    String(today.getMonth()+1).padStart(2,'0') + '/' +
-    today.getFullYear();
-
-  // Progress tracker
-  const fields = document.querySelectorAll('textarea, input[type="text"], select');
-  function updateProgress() {
-    const filled = Array.from(fields).filter(f => f.value.trim().length > 0).length;
-    const pct = Math.round((filled / fields.length) * 100);
-    document.getElementById('progressFill').style.width = pct + '%';
-    document.getElementById('progressPct').textContent = pct + '%';
-  }
-  fields.forEach(f => f.addEventListener('input', updateProgress));
-  fields.forEach(f => f.addEventListener('change', updateProgress));
-  updateProgress();
-
-  // Submit via Formspree
-  async function handleSubmit() {
-    const btn = document.querySelector('.submit-btn');
-    btn.disabled = true;
-    btn.innerHTML = '&#9203; Sending&hellip;';
-
-    const data = {};
-    fields.forEach(f => { if (f.name) data[f.name] = f.value; });
-
-    try {
-      const res = await fetch('https://formspree.io/f/maqpkjld', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-        body: JSON.stringify(data)
-      });
-
-      if (res.ok) {
-        btn.innerHTML = '&#10003; Submitted';
-        btn.style.background = 'linear-gradient(135deg,#0e9f6e,#057a55)';
-        btn.style.boxShadow = '0 4px 18px rgba(14,159,110,0.4)';
-        showToast('Your responses have been submitted. Thank you!');
-        fields.forEach(f => f.disabled = true);
-      } else {
-        throw new Error('failed');
-      }
-    } catch (e) {
-      btn.disabled = false;
-      btn.innerHTML = 'Submit Responses';
-      showToast('Something went wrong. Please try again.');
+  // Country toggle
+  function selectCountry(btn) {
+    document.querySelectorAll('.country-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const countrySelect = document.querySelector('select[name="country"]');
+    const val = btn.dataset.country;
+    for (let opt of countrySelect.options) {
+      if (opt.value === val) { countrySelect.value = val; break; }
     }
+    updateProgress();
   }
 
-  function showToast(msg) {
-    const t = document.getElementById('toast');
-    document.getElementById('toastMsg').textContent = msg;
-    t.classList.add('show');
-    setTimeout(() => t.classList.remove('show'), 4000);
+  // Progress tracking
+  function updateProgress() {
+    const textareas = document.querySelectorAll('textarea');
+    const selects = document.querySelectorAll('select[required]');
+    let filled = 0, total = textareas.length + selects.length;
+    textareas.forEach(t => { if (t.value.trim()) filled++; });
+    selects.forEach(s => { if (s.value) filled++; });
+    const pct = Math.round((filled / total) * 100);
+    document.getElementById('progressFill').style.width = pct + '%';
+    document.getElementById('progressLabel').textContent = pct + '% complete';
   }
+
+  document.querySelectorAll('textarea, select').forEach(el => {
+    el.addEventListener('input', updateProgress);
+    el.addEventListener('change', updateProgress);
+  });
+
+  // Submit
+  document.getElementById('interviewForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const formData = new FormData(this);
+    try {
+      const resp = await fetch(this.action, {
+        method: 'POST',
+        body: formData,
+        headers: { 'Accept': 'application/json' }
+      });
+      if (resp.ok) {
+        document.getElementById('formContent').classList.add('hidden');
+        document.getElementById('thankYou').classList.add('show');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    } catch (err) {
+      alert('Something went wrong. Please try again.');
+    }
+  });
+
+  updateProgress();
 </script>
 </body>
 </html>
