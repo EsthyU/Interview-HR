@@ -3,618 +3,290 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>HR Research Interview — Online Identity Management</title>
+<title>HR Research Interview · Online Identity Management Among Engineers</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Hanken+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg: #FAF8F5;
-    --card: #FFFFFF;
-    --text: #1A1A1A;
-    --muted: #6B6560;
-    --accent: #2D5A3D;
-    --accent-light: #E8F0EB;
-    --border: #E5E0DA;
-    --input-bg: #FAFAF8;
-    --radius: 10px;
-    --shadow: 0 1px 3px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03);
+  :root{
+    --paper:#FAF6EE;--paper-2:#F2EADC;--paper-3:#EDE3D2;
+    --ink:#26221F;--ink-soft:#5A534D;--ink-faint:#8E8579;
+    --accent:#6E2B2B;--accent-soft:#883A38;--gold:#A9854A;
+    --line:#DCD2BF;--line-soft:#E6DECD;
+    --radius:14px;--measure:680px;
+    --serif:'Fraunces',Georgia,serif;--sans:'Hanken Grotesk',-apple-system,sans-serif;
   }
-
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-  body {
-    font-family: 'DM Sans', sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    line-height: 1.6;
-    min-height: 100vh;
-  }
-
-  .wrapper {
-    max-width: 680px;
-    margin: 0 auto;
-    padding: 32px 20px 60px;
-  }
-
-  /* Header */
-  .header {
-    text-align: center;
-    padding: 48px 24px 40px;
-    margin-bottom: 32px;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .header-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 12px;
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--accent);
-    background: var(--accent-light);
-    padding: 6px 14px;
-    border-radius: 20px;
-    margin-bottom: 20px;
-  }
-
-  .header h1 {
-    font-family: 'Source Serif 4', serif;
-    font-size: clamp(22px, 4.5vw, 30px);
-    font-weight: 600;
-    line-height: 1.3;
-    margin-bottom: 12px;
-    color: var(--text);
-  }
-
-  .header p {
-    font-size: 14px;
-    color: var(--muted);
-    max-width: 500px;
-    margin: 0 auto;
-    line-height: 1.55;
-  }
-
-  /* Country selector */
-  .country-toggle {
-    display: flex;
-    justify-content: center;
-    gap: 12px;
-    margin-top: 20px;
-  }
-  .country-btn {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    padding: 8px 18px;
-    border: 1.5px solid var(--border);
-    border-radius: 24px;
-    background: var(--card);
-    font-family: inherit;
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--muted);
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-  .country-btn:hover { border-color: var(--accent); color: var(--text); }
-  .country-btn.active {
-    border-color: var(--accent);
-    background: var(--accent-light);
-    color: var(--accent);
-    font-weight: 600;
-  }
-
-  /* Progress */
-  .progress-bar {
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    background: var(--bg);
-    padding: 12px 0 8px;
-  }
-  .progress-track {
-    height: 3px;
-    background: var(--border);
-    border-radius: 3px;
-    overflow: hidden;
-  }
-  .progress-fill {
-    height: 100%;
-    background: var(--accent);
-    border-radius: 3px;
-    width: 0%;
-    transition: width 0.4s ease;
-  }
-  .progress-label {
-    font-size: 11px;
-    color: var(--muted);
-    text-align: right;
-    margin-top: 4px;
-  }
-
-  /* Info box */
-  .info-box {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 20px 24px;
-    margin-bottom: 28px;
-    box-shadow: var(--shadow);
-  }
-  .info-box h2 {
-    font-family: 'Source Serif 4', serif;
-    font-size: 16px;
-    font-weight: 600;
-    margin-bottom: 10px;
-  }
-  .info-box p {
-    font-size: 13.5px;
-    color: var(--muted);
-    line-height: 1.6;
-  }
-  .info-list {
-    list-style: none;
-    margin-top: 12px;
-    display: grid;
-    gap: 6px;
-  }
-  .info-list li {
-    font-size: 13px;
-    color: var(--muted);
-    padding-left: 18px;
-    position: relative;
-  }
-  .info-list li::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 7px;
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: var(--accent);
-    opacity: 0.5;
-  }
-
-  /* Consent */
-  .consent-section {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 20px 24px;
-    margin-bottom: 28px;
-    box-shadow: var(--shadow);
-  }
-  .consent-section h2 {
-    font-family: 'Source Serif 4', serif;
-    font-size: 16px;
-    font-weight: 600;
-    margin-bottom: 12px;
-  }
-  .consent-item {
-    display: flex;
-    align-items: flex-start;
-    gap: 10px;
-    margin-bottom: 10px;
-    font-size: 13px;
-    color: var(--muted);
-    line-height: 1.5;
-  }
-  .consent-item input[type="checkbox"] {
-    margin-top: 3px;
-    accent-color: var(--accent);
-    flex-shrink: 0;
-  }
-
-  /* Demographics row */
-  .demo-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-    margin-top: 16px;
-  }
-  @media (max-width: 480px) {
-    .demo-row { grid-template-columns: 1fr; }
-  }
-  .demo-row label {
-    font-size: 12px;
-    font-weight: 500;
-    color: var(--muted);
-    display: block;
-    margin-bottom: 4px;
-  }
-  .demo-row select, .demo-row input[type="text"] {
-    width: 100%;
-    padding: 9px 12px;
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    background: var(--input-bg);
-    font-family: inherit;
-    font-size: 13px;
-    color: var(--text);
-    appearance: auto;
-  }
-
-  /* Sections */
-  .section {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 28px 24px;
-    margin-bottom: 20px;
-    box-shadow: var(--shadow);
-  }
-  .section-num {
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: 4px;
-  }
-  .section-title {
-    font-family: 'Source Serif 4', serif;
-    font-size: 17px;
-    font-weight: 600;
-    margin-bottom: 6px;
-  }
-  .section-desc {
-    font-size: 13px;
-    color: var(--muted);
-    margin-bottom: 20px;
-    line-height: 1.5;
-  }
-
-  /* Questions */
-  .question {
-    margin-bottom: 22px;
-  }
-  .question:last-child { margin-bottom: 0; }
-  .q-label {
-    font-size: 14px;
-    font-weight: 500;
-    line-height: 1.5;
-    margin-bottom: 8px;
-    color: var(--text);
-  }
-  .q-hint {
-    font-size: 12.5px;
-    color: var(--muted);
-    margin-bottom: 8px;
-    font-style: italic;
-  }
-  textarea {
-    width: 100%;
-    min-height: 100px;
-    padding: 12px 14px;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    background: var(--input-bg);
-    font-family: inherit;
-    font-size: 13.5px;
-    line-height: 1.55;
-    color: var(--text);
-    resize: vertical;
-    transition: border-color 0.2s;
-  }
-  textarea:focus {
-    outline: none;
-    border-color: var(--accent);
-    box-shadow: 0 0 0 3px rgba(45,90,61,0.08);
-  }
-  textarea.short { min-height: 70px; }
-
-  /* Submit */
-  .submit-wrap {
-    text-align: center;
-    margin-top: 32px;
-  }
-  .submit-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 14px 36px;
-    background: var(--accent);
-    color: #fff;
-    border: none;
-    border-radius: 8px;
-    font-family: inherit;
-    font-size: 15px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background 0.2s, transform 0.1s;
-  }
-  .submit-btn:hover { background: #234A30; }
-  .submit-btn:active { transform: scale(0.98); }
-
-  .thank-you {
-    display: none;
-    text-align: center;
-    padding: 48px 24px;
-  }
-  .thank-you.show { display: block; }
-  .thank-you h2 {
-    font-family: 'Source Serif 4', serif;
-    font-size: 24px;
-    margin-bottom: 12px;
-    color: var(--accent);
-  }
-  .thank-you p {
-    font-size: 14px;
-    color: var(--muted);
-  }
-
-  .form-content { display: block; }
-  .form-content.hidden { display: none; }
-
-  /* Divider between questions */
-  .q-divider {
-    border: none;
-    border-top: 1px solid var(--border);
-    margin: 20px 0;
-  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:var(--sans);background:var(--paper);color:var(--ink);line-height:1.65;font-weight:400;-webkit-font-smoothing:antialiased;position:relative;overflow-x:hidden}
+  body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(120% 90% at 12% -5%, rgba(110,43,43,.06), transparent 55%),radial-gradient(120% 90% at 100% 0%, rgba(169,133,74,.07), transparent 50%)}
+  body::after{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.5;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E")}
+  .progress-track{position:fixed;top:0;left:0;right:0;height:3px;background:transparent;z-index:50}
+  .progress-bar{height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--accent-soft));transition:width .4s cubic-bezier(.4,0,.2,1)}
+  .wrap{position:relative;z-index:1;max-width:var(--measure);margin:0 auto;padding:64px 26px 120px}
+  .overline{font-size:.72rem;letter-spacing:.28em;text-transform:uppercase;color:var(--accent);font-weight:600;margin-bottom:22px}
+  h1{font-family:var(--serif);font-weight:500;font-size:clamp(2.1rem,6vw,3.3rem);line-height:1.08;letter-spacing:-.015em;margin-bottom:18px}
+  h1 em{font-style:italic;color:var(--accent)}
+  .lede{font-size:1.08rem;color:var(--ink-soft);max-width:55ch;margin-bottom:30px}
+  .meta-row{display:flex;flex-wrap:wrap;gap:10px 22px;font-size:.82rem;color:var(--ink-faint);letter-spacing:.04em;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:16px 0;margin-bottom:8px}
+  .meta-row span{display:inline-flex;align-items:center;gap:7px}
+  .dot{width:5px;height:5px;border-radius:50%;background:var(--gold)}
+  .country-block{margin:46px 0 8px}
+  .field-label{font-family:var(--serif);font-size:1.02rem;font-weight:500;margin-bottom:4px}
+  .field-hint{font-size:.85rem;color:var(--ink-faint);margin-bottom:14px}
+  .toggle{display:inline-flex;background:var(--paper-2);border:1px solid var(--line);border-radius:999px;padding:5px;position:relative;gap:4px}
+  .toggle button{font-family:var(--sans);font-size:.92rem;font-weight:500;color:var(--ink-soft);background:transparent;border:none;padding:9px 22px;border-radius:999px;cursor:pointer;position:relative;z-index:1;transition:color .3s;display:flex;align-items:center;gap:8px}
+  .toggle button .flag{width:16px;height:11px;border-radius:2px;overflow:hidden;display:inline-block;box-shadow:0 0 0 .5px rgba(0,0,0,.12)}
+  .toggle button.active{color:#fff}
+  .toggle .slider{position:absolute;top:5px;bottom:5px;border-radius:999px;background:var(--accent);transition:transform .35s cubic-bezier(.4,0,.2,1),width .35s;z-index:0}
+  .note{background:var(--paper-2);border:1px solid var(--line-soft);border-radius:var(--radius);padding:26px 28px;margin:40px 0}
+  .note p{color:var(--ink-soft);font-size:.97rem}
+  .note p+p{margin-top:12px}
+  .how{display:grid;gap:14px;margin-top:18px}
+  .how-item{display:flex;gap:14px;align-items:flex-start;font-size:.92rem;color:var(--ink-soft)}
+  .how-num{flex:none;font-family:var(--serif);font-size:.8rem;width:24px;height:24px;border-radius:50%;border:1px solid var(--accent);color:var(--accent);display:grid;place-items:center;font-weight:600}
+  .consent-list{display:grid;gap:14px;margin-top:6px}
+  .check{display:flex;gap:13px;align-items:flex-start;cursor:pointer;font-size:.92rem;color:var(--ink-soft);line-height:1.5}
+  .check input{position:absolute;opacity:0;width:0;height:0}
+  .box{flex:none;width:21px;height:21px;border:1.5px solid var(--line);border-radius:6px;background:var(--paper);margin-top:2px;display:grid;place-items:center;transition:.2s}
+  .box svg{width:12px;height:12px;stroke:#fff;stroke-width:3;fill:none;stroke-dasharray:18;stroke-dashoffset:18;transition:stroke-dashoffset .25s ease .05s}
+  .check input:checked+.box{background:var(--accent);border-color:var(--accent)}
+  .check input:checked+.box svg{stroke-dashoffset:0}
+  .check input:focus-visible+.box{box-shadow:0 0 0 3px rgba(110,43,43,.2)}
+  .section{margin-top:62px}
+  .section-head{display:flex;align-items:baseline;gap:18px;border-top:1px solid var(--line);padding-top:26px;margin-bottom:6px}
+  .section-num{font-family:var(--serif);font-size:2.4rem;font-weight:400;color:var(--accent);line-height:1;opacity:.85}
+  .section-titles .kicker{font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);font-weight:600;margin-bottom:4px}
+  .section-titles h2{font-family:var(--serif);font-weight:500;font-size:1.5rem;letter-spacing:-.01em;line-height:1.15}
+  .section-sub{font-size:.92rem;color:var(--ink-faint);margin:10px 0 0 calc(2.4rem + 18px)}
+  .q{margin-top:38px}
+  .q-meta{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+  .q-tag{font-family:var(--serif);font-size:.78rem;font-weight:600;color:var(--accent);letter-spacing:.05em}
+  .q-text{font-size:1.12rem;font-weight:500;color:var(--ink);line-height:1.45;letter-spacing:-.005em}
+  textarea,input[type=text],input[type=date],select{width:100%;font-family:var(--sans);font-size:1rem;color:var(--ink);background:var(--paper-2);border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin-top:14px;resize:none;transition:border-color .2s,box-shadow .2s,background .2s;line-height:1.6}
+  textarea{min-height:88px;overflow:hidden}
+  textarea::placeholder{color:var(--ink-faint);opacity:.7}
+  textarea:focus,input:focus,select:focus{outline:none;border-color:var(--accent);background:var(--paper);box-shadow:0 0 0 3px rgba(110,43,43,.1)}
+  select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238E8579' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 16px center}
+  .followup{margin:16px 0 0 16px;padding-left:22px;border-left:2px solid var(--line);position:relative;opacity:.55;transition:opacity .4s}
+  .q.engaged .followup{opacity:1;border-left-color:var(--accent-soft)}
+  .fu-label{display:inline-flex;align-items:center;gap:8px;font-family:var(--serif);font-style:italic;font-size:.84rem;color:var(--accent);font-weight:500;margin-bottom:5px}
+  .fu-label svg{width:15px;height:15px;stroke:var(--accent);fill:none;stroke-width:1.7}
+  .fu-probe{font-size:1.02rem;color:var(--ink);font-weight:500;line-height:1.45}
+  .followup textarea{min-height:74px}
+  .short-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  @media(max-width:560px){.short-grid{grid-template-columns:1fr}}
+  .short-grid .field-label{margin-top:0}
+  .closing{margin-top:62px;border-top:1px solid var(--line);padding-top:30px}
+  .closing h2{font-family:var(--serif);font-weight:500;font-size:1.4rem;margin-bottom:8px}
+  .closing p{font-size:.95rem;color:var(--ink-soft)}
+  .submit-row{margin-top:46px;display:flex;flex-direction:column;align-items:center;gap:16px}
+  button.submit{font-family:var(--serif);font-size:1.05rem;font-weight:500;letter-spacing:.01em;color:var(--paper);background:var(--accent);border:none;border-radius:999px;padding:16px 48px;cursor:pointer;transition:transform .2s,background .2s,box-shadow .2s;box-shadow:0 8px 24px -10px rgba(110,43,43,.6)}
+  button.submit:hover{background:var(--accent-soft);transform:translateY(-2px);box-shadow:0 14px 30px -12px rgba(110,43,43,.6)}
+  button.submit:disabled{opacity:.55;cursor:wait;transform:none}
+  .save-note{font-size:.8rem;color:var(--ink-faint);letter-spacing:.04em;height:1.1em;transition:opacity .4s}
+  .footer{text-align:center;margin-top:54px;font-size:.85rem;color:var(--ink-faint);line-height:1.7}
+  .success{position:fixed;inset:0;z-index:100;background:var(--paper);display:none;place-items:center;text-align:center;padding:30px;opacity:0;transition:opacity .5s}
+  .success.show{display:grid;opacity:1}
+  .success .seal{width:74px;height:74px;border-radius:50%;border:1.5px solid var(--accent);display:grid;place-items:center;margin:0 auto 26px}
+  .success .seal svg{width:34px;height:34px;stroke:var(--accent);stroke-width:2.2;fill:none;stroke-dasharray:40;stroke-dashoffset:40;animation:draw .7s ease .3s forwards}
+  @keyframes draw{to{stroke-dashoffset:0}}
+  .success h2{font-family:var(--serif);font-weight:500;font-size:2rem;margin-bottom:14px}
+  .success p{color:var(--ink-soft);max-width:44ch;margin:0 auto}
+  .reveal{opacity:0;transform:translateY(14px);animation:rise .7s cubic-bezier(.2,.7,.2,1) forwards}
+  @keyframes rise{to{opacity:1;transform:none}}
 </style>
 </head>
 <body>
-<div class="wrapper">
-
-  <!-- Header -->
-  <div class="header">
-    <div class="header-badge">HR &amp; Recruiters &middot; Qualitative Research</div>
-    <h1>Online Identity Management &amp; Professional Branding Among Engineers</h1>
-    <p>Research interview for HR and recruitment professionals. Self-completion format; approximately 15 to 20 minutes.</p>
-    <div class="country-toggle">
-      <button class="country-btn" data-country="Romania" onclick="selectCountry(this)">&#x1F1F7;&#x1F1F4; Romania</button>
-      <button class="country-btn" data-country="Nigeria" onclick="selectCountry(this)">&#x1F1F3;&#x1F1EC; Nigeria</button>
+<div class="progress-track"><div class="progress-bar" id="bar"></div></div>
+<div class="wrap">
+  <form id="form" action="https://formspree.io/f/xkoanpvy" method="POST">
+    <header>
+      <div class="overline reveal">HR &amp; Recruiters · Qualitative Research</div>
+      <h1 class="reveal" style="animation-delay:.05s">How Engineers' <em>Online Identities</em> Are Read in Hiring</h1>
+      <p class="lede reveal" style="animation-delay:.1s">A guided conversation about how engineering candidates' online professional identities are perceived during hiring. Each question has a short follow up to go a little deeper. There are no right or wrong answers, I am interested in your professional reasoning and lived experience.</p>
+      <div class="meta-row reveal" style="animation-delay:.15s">
+        <span><span class="dot"></span>Self completion</span>
+        <span><span class="dot"></span>About 12 to 15 minutes</span>
+        <span><span class="dot"></span>Write in your own words</span>
+        <span><span class="dot"></span>Fully anonymised</span>
+      </div>
+    </header>
+    <div class="country-block reveal" style="animation-delay:.2s">
+      <div class="field-label">Which market do you primarily hire in?</div>
+      <div class="field-hint">This helps me situate your perspective in the right context.</div>
+      <div class="toggle" id="toggle">
+        <span class="slider" id="slider"></span>
+        <button type="button" data-country="Nigeria" class="active"><span class="flag"><svg width="16" height="11" viewBox="0 0 6 4"><rect width="2" height="4" fill="#008751"/><rect x="2" width="2" height="4" fill="#fff"/><rect x="4" width="2" height="4" fill="#008751"/></svg></span>Nigeria</button>
+        <button type="button" data-country="Romania"><span class="flag"><svg width="16" height="11" viewBox="0 0 6 4"><rect width="2" height="4" fill="#002B7F"/><rect x="2" width="2" height="4" fill="#FCD116"/><rect x="4" width="2" height="4" fill="#CE1126"/></svg></span>Romania</button>
+      </div>
+      <input type="hidden" name="Country" id="country" value="Nigeria">
+      <input type="hidden" name="Participant type" value="HR / Recruiter">
     </div>
-  </div>
-
-  <!-- Progress -->
-  <div class="progress-bar">
-    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
-    <div class="progress-label" id="progressLabel">0% complete</div>
-  </div>
-
-  <form id="interviewForm" action="https://formspree.io/f/mjgjgooo" method="POST">
-    <div class="form-content" id="formContent">
-
-      <!-- Instructions -->
-      <div class="info-box">
-        <h2>Before you begin</h2>
-        <p>This interview explores how engineering candidates' online professional identities are perceived during hiring. There are no right or wrong answers. I am interested in your professional reasoning and lived experience.</p>
-        <ul class="info-list">
-          <li>No time limit; complete at your own pace</li>
-          <li>Write as much or as little as you are comfortable with</li>
-          <li>Skip any question that does not apply to your experience</li>
-          <li>All responses are anonymised before analysis</li>
-        </ul>
+    <div class="note reveal" style="animation-delay:.25s">
+      <p>This interview is <strong>for research purposes only</strong>. You <strong>do not need to give your name or any personal data</strong>; all responses are anonymised before analysis. Your draft also saves automatically, so you can complete it across several sittings.</p>
+      <p>What matters most is the <strong>depth of your answers</strong>. In a semi structured interview it is the detailed, in depth responses, and not short ones, that carry the real value, so please share your reasoning as fully and openly as you can. Each main question is followed by a short follow up, and <strong>it is important to answer those follow up questions too</strong>.</p>
+      <div class="how">
+        <div class="how-item"><span class="how-num">1</span><span>Please answer in your own words; there is no word count and no time limit.</span></div>
+        <div class="how-item"><span class="how-num">2</span><span>Answer in depth rather than briefly; detail is what makes these responses useful.</span></div>
+        <div class="how-item"><span class="how-num">3</span><span>Answer the main question first, then the follow up beneath it.</span></div>
+        <div class="how-item"><span class="how-num">4</span><span>Where a follow up asks for a specific case, a real example is the most valuable.</span></div>
       </div>
+    </div>
 
-      <!-- Consent -->
-      <div class="consent-section">
-        <h2>Consent</h2>
-        <div class="consent-item">
-          <input type="checkbox" name="consent_purpose" required>
-          <span>I understand the purpose of this study and that participation is voluntary.</span>
-        </div>
-        <div class="consent-item">
-          <input type="checkbox" name="consent_data" required>
-          <span>I agree that my responses will be anonymised and used for research purposes only.</span>
-        </div>
-        <div class="consent-item">
-          <input type="checkbox" name="consent_quote" required>
-          <span>I am happy for my written responses to be quoted without identifying me.</span>
-        </div>
+    <div class="note reveal" style="animation-delay:.3s">
+      <div class="field-label" style="margin-bottom:14px">Consent</div>
+      <div class="consent-list">
+        <label class="check"><input type="checkbox" name="Consent: voluntary" value="Agreed" required><span class="box"><svg viewBox="0 0 24 24"><polyline points="4 12 10 18 20 6"/></svg></span><span>I understand the purpose of this study and that participation is voluntary.</span></label>
+        <label class="check"><input type="checkbox" name="Consent: anonymised use" value="Agreed" required><span class="box"><svg viewBox="0 0 24 24"><polyline points="4 12 10 18 20 6"/></svg></span><span>My responses will be anonymised and used for research purposes only.</span></label>
+        <label class="check"><input type="checkbox" name="Consent: quotes" value="Agreed" required><span class="box"><svg viewBox="0 0 24 24"><polyline points="4 12 10 18 20 6"/></svg></span><span>I am happy for my written responses to be quoted without identifying me.</span></label>
+      </div>
+      <div class="short-grid" style="margin-top:22px">
+        <div><div class="field-label">Name <span style="color:var(--ink-faint);font-weight:400">(optional)</span></div><input type="text" name="Name" placeholder="Optional"></div>
+        <div><div class="field-label">Date</div><input type="date" name="Date" required></div>
+      </div>
+      <div class="short-grid" style="margin-top:16px">
+        <div><div class="field-label">Gender <span style="color:var(--ink-faint);font-weight:400">(optional)</span></div><select name="Gender"><option value="">Prefer not to say</option><option>Female</option><option>Male</option><option>Other</option></select></div>
+        <div></div>
+      </div>
+    </div>
 
-        <div class="demo-row">
-          <div>
-            <label>Name (optional)</label>
-            <input type="text" name="participant_name" placeholder="For follow-up only">
-          </div>
-          <div>
-            <label>Country</label>
-            <select name="country" required>
-              <option value="">Select</option>
-              <option value="Romania">Romania</option>
-              <option value="Nigeria">Nigeria</option>
-              <option value="Other">Other</option>
-            </select>
-          </div>
-        </div>
-        <div class="demo-row" style="margin-top:8px">
-          <div>
-            <label>Gender</label>
-            <select name="gender" required>
-              <option value="">Select</option>
-              <option value="Male">Male</option>
-              <option value="Female">Female</option>
-            </select>
-          </div>
-          <div>
-            <label>Date</label>
-            <input type="text" name="date_completed" placeholder="DD/MM/YYYY">
-          </div>
+    <section class="section">
+      <div class="section-head"><div class="section-num">01</div><div class="section-titles"><div class="kicker">Context</div><h2>Your background</h2></div></div>
+      <p class="section-sub">Your professional context and hiring experience.</p>
+      <div class="q">
+        <div class="q-meta"><span class="q-tag">Q1</span></div>
+        <div class="q-text">What is your current role and organisation, and what types of engineering positions do you typically hire for and in which markets?</div>
+        <textarea name="Q1: Role, org & roles hired" required></textarea>
+        <div class="followup">
+          <div class="fu-label"><svg viewBox="0 0 24 24"><path d="M9 6l-4 4 4 4"/><path d="M5 10h9a4 4 0 0 1 4 4v4"/></svg>Follow up</div>
+          <div class="fu-probe">Roughly how many engineering hires have you been involved in over the past two to three years, and at what seniority levels (junior, mid, senior)?</div>
+          <textarea name="Q1b: Volume & seniority of hires" required></textarea>
         </div>
       </div>
+    </section>
 
-      <!-- SECTION 1: Background -->
-      <div class="section">
-        <div class="section-num">Section 1</div>
-        <div class="section-title">Your Background</div>
-        <div class="section-desc">Your professional context and hiring experience.</div>
-
-        <div class="question">
-          <div class="q-label">1. What is your current role and organisation? What types of engineering positions do you typically hire for, and in which markets or regions?</div>
-          <textarea name="q1_background" placeholder="Your response..."></textarea>
-        </div>
-
-        <hr class="q-divider">
-
-        <div class="question">
-          <div class="q-label">2. Roughly how many engineering hires have you been involved in over the past two to three years, and at what seniority levels (junior, mid, senior)?</div>
-          <textarea name="q2_hiring_volume" class="short" placeholder="Your response..."></textarea>
+    <section class="section">
+      <div class="section-head"><div class="section-num">02</div><div class="section-titles"><div class="kicker">Workflow</div><h2>Where online presence fits</h2></div></div>
+      <p class="section-sub">How a candidate's online presence enters your process.</p>
+      <div class="q">
+        <div class="q-meta"><span class="q-tag">Q2</span></div>
+        <div class="q-text">At what stage of your process do you check a candidate's online presence, and is this routine or situational?</div>
+        <textarea name="Q2: Stage of checking" required></textarea>
+        <div class="followup">
+          <div class="fu-label"><svg viewBox="0 0 24 24"><path d="M9 6l-4 4 4 4"/><path d="M5 10h9a4 4 0 0 1 4 4v4"/></svg>Follow up</div>
+          <div class="fu-probe">Which platforms do you actually check for engineering candidates, LinkedIn, GitHub, portfolios, others, and why those particular ones?</div>
+          <textarea name="Q2b: Which platforms & why" required></textarea>
         </div>
       </div>
+    </section>
 
-      <!-- SECTION 2: Hiring Workflow & Platform Use -->
-      <div class="section">
-        <div class="section-num">Section 2</div>
-        <div class="section-title">Hiring Workflow and Platform Use</div>
-        <div class="section-desc">How online presence fits into your screening process.</div>
-
-        <div class="question">
-          <div class="q-label">3. At what stage of your hiring process do you check a candidate's online presence, and is this routine or situational?</div>
-          <textarea name="q3_workflow" placeholder="Your response..."></textarea>
-        </div>
-
-        <hr class="q-divider">
-
-        <div class="question">
-          <div class="q-label">4. Which platforms do you check for engineering candidates (for example LinkedIn, GitHub, personal portfolios, or others), and why those particular ones?</div>
-          <textarea name="q4_platforms" placeholder="Your response..."></textarea>
+    <section class="section">
+      <div class="section-head"><div class="section-num">03</div><div class="section-titles"><div class="kicker">Evaluation</div><h2>Reading a profile</h2></div></div>
+      <p class="section-sub">How you interpret what you find.</p>
+      <div class="q">
+        <div class="q-meta"><span class="q-tag">Q3</span></div>
+        <div class="q-text">When you open a candidate's profile for the first time, what do you look at first to judge their credibility and suitability?</div>
+        <textarea name="Q3: First things checked" required></textarea>
+        <div class="followup">
+          <div class="fu-label"><svg viewBox="0 0 24 24"><path d="M9 6l-4 4 4 4"/><path d="M5 10h9a4 4 0 0 1 4 4v4"/></svg>Follow up</div>
+          <div class="fu-probe">In your experience, what separates a strong profile from a weak one?</div>
+          <textarea name="Q3b: Strong vs weak profile" required></textarea>
         </div>
       </div>
-
-      <!-- SECTION 3: Profile Evaluation -->
-      <div class="section">
-        <div class="section-num">Section 3</div>
-        <div class="section-title">Evaluating Online Profiles</div>
-        <div class="section-desc">How you read and interpret what you find.</div>
-
-        <div class="question">
-          <div class="q-label">5. When you look at a candidate's online profile for the first time, what are the first things you check to judge their credibility and suitability? What separates a strong profile from a weak one?</div>
-          <textarea name="q5_evaluation" placeholder="Your response..."></textarea>
-        </div>
-
-        <hr class="q-divider">
-
-        <div class="question">
-          <div class="q-label">6. Has information from a candidate's online presence ever changed a hiring decision you were already leaning toward? What happened?</div>
-          <textarea name="q6_decision_impact" placeholder="Your response..."></textarea>
+      <div class="q">
+        <div class="q-meta"><span class="q-tag">Q4</span></div>
+        <div class="q-text">Has information from a candidate's online presence ever changed a hiring decision you were already leaning toward?</div>
+        <textarea name="Q4: Decision changed (yes/no & gist)" required></textarea>
+        <div class="followup">
+          <div class="fu-label"><svg viewBox="0 0 24 24"><path d="M9 6l-4 4 4 4"/><path d="M5 10h9a4 4 0 0 1 4 4v4"/></svg>Follow up</div>
+          <div class="fu-probe">Tell me what happened in that specific case, what did you see, and how did it shift your thinking?</div>
+          <textarea name="Q4b: The specific case" required></textarea>
         </div>
       </div>
+    </section>
 
-      <!-- SECTION 4: Credibility & Authenticity -->
-      <div class="section">
-        <div class="section-num">Section 4</div>
-        <div class="section-title">Credibility, Trust, and Status Signals</div>
-        <div class="section-desc">How you judge what is genuine online.</div>
-
-        <div class="question">
-          <div class="q-label">7. What makes you trust that a profile is accurate and authentic? What patterns make you suspect exaggeration, and which status signals (for example well known employers, certifications, or follower counts) do you take seriously versus treat with scepticism?</div>
-          <textarea name="q7_credibility" placeholder="Your response..."></textarea>
+    <section class="section">
+      <div class="section-head"><div class="section-num">04</div><div class="section-titles"><div class="kicker">Trust</div><h2>Credibility &amp; status signals</h2></div></div>
+      <p class="section-sub">How you judge what is genuine.</p>
+      <div class="q">
+        <div class="q-meta"><span class="q-tag">Q5</span></div>
+        <div class="q-text">What makes you trust that a profile is accurate and authentic, and what patterns make you suspect exaggeration?</div>
+        <textarea name="Q5: Trust vs suspicion" required></textarea>
+        <div class="followup">
+          <div class="fu-label"><svg viewBox="0 0 24 24"><path d="M9 6l-4 4 4 4"/><path d="M5 10h9a4 4 0 0 1 4 4v4"/></svg>Follow up</div>
+          <div class="fu-probe">Which status signals, well known employers, certifications, follower counts and the like, do you take seriously, and which do you treat with scepticism?</div>
+          <textarea name="Q5b: Signals taken seriously vs sceptically" required></textarea>
         </div>
       </div>
+    </section>
 
-      <!-- SECTION 5: Personal Branding -->
-      <div class="section">
-        <div class="section-num">Section 5</div>
-        <div class="section-title">Personal Branding and Self-Presentation</div>
-        <div class="section-desc">How deliberate visibility efforts come across to you.</div>
-
-        <div class="question">
-          <div class="q-label">8. What kinds of personal branding behaviours do you notice among engineering candidates (for example frequent posting, curated achievement highlights, or collecting certifications)? When does this come across as credible versus performative?</div>
-          <textarea name="q8_branding" placeholder="Your response..."></textarea>
-        </div>
-
-        <hr class="q-divider">
-
-        <div class="question">
-          <div class="q-label">9. If you have experience hiring across different markets or cultural contexts, have you noticed differences in what is considered a credible online professional presence?</div>
-          <div class="q-hint">Skip this question if it does not apply to your experience.</div>
-          <textarea name="q9_cultural" placeholder="Your response..."></textarea>
+    <section class="section">
+      <div class="section-head"><div class="section-num">05</div><div class="section-titles"><div class="kicker">Self-presentation</div><h2>Personal branding</h2></div></div>
+      <p class="section-sub">How deliberate visibility efforts come across to you.</p>
+      <div class="q">
+        <div class="q-meta"><span class="q-tag">Q6</span></div>
+        <div class="q-text">What personal-branding behaviours do you notice among engineering candidates, and when do they read as credible versus performative? (e.g. frequent posting, curated highlights, collecting certifications.)</div>
+        <textarea name="Q6: Branding: credible vs performative" required></textarea>
+        <div class="followup">
+          <div class="fu-label"><svg viewBox="0 0 24 24"><path d="M9 6l-4 4 4 4"/><path d="M5 10h9a4 4 0 0 1 4 4v4"/></svg>Follow up</div>
+          <div class="fu-probe">If you've hired across different markets or cultures, what differences have you noticed in what counts as a credible online presence?</div>
+          <textarea name="Q6b: Cross-market differences" required></textarea>
         </div>
       </div>
+    </section>
 
-      <!-- SECTION 6: Advice -->
-      <div class="section">
-        <div class="section-num">Section 6</div>
-        <div class="section-title">Practical Advice</div>
-        <div class="section-desc">Drawing on your experience.</div>
-
-        <div class="question">
-          <div class="q-label">10. If you could give engineers three concrete rules for building an online presence that supports their hiring outcomes, what would they be?</div>
-          <textarea name="q10_advice" placeholder="Your response..."></textarea>
-        </div>
-
-        <hr class="q-divider">
-
-        <div class="question">
-          <div class="q-label">Is there anything else you would like to add that the questions did not cover?</div>
-          <div class="q-hint">Optional</div>
-          <textarea name="q_additional" class="short" placeholder="Any additional thoughts..."></textarea>
+    <section class="section">
+      <div class="section-head"><div class="section-num">06</div><div class="section-titles"><div class="kicker">Advice</div><h2>Practical guidance</h2></div></div>
+      <p class="section-sub">Drawing on your experience.</p>
+      <div class="q">
+        <div class="q-meta"><span class="q-tag">Q7</span></div>
+        <div class="q-text">If you could give engineers three concrete rules for building an online presence that supports their hiring outcomes, what would they be?</div>
+        <textarea name="Q7: Three rules" required></textarea>
+        <div class="followup">
+          <div class="fu-label"><svg viewBox="0 0 24 24"><path d="M9 6l-4 4 4 4"/><path d="M5 10h9a4 4 0 0 1 4 4v4"/></svg>Follow up</div>
+          <div class="fu-probe">Of those three, which do you think engineers most often get wrong?</div>
+          <textarea name="Q7b: What engineers get wrong" required></textarea>
         </div>
       </div>
+    </section>
 
-      <!-- Submit -->
-      <div class="submit-wrap">
-        <button type="submit" class="submit-btn">Submit Responses</button>
-      </div>
-
-    </div><!-- /form-content -->
+    <div class="closing">
+      <h2>Anything else?</h2>
+      <p>Is there anything you would like to add that the questions did not cover?</p>
+      <textarea name="Anything else"></textarea>
+    </div>
+    <div class="submit-row">
+      <button type="submit" class="submit" id="submitBtn">Submit responses</button>
+      <div class="save-note" id="saveNote"></div>
+    </div>
+    <div class="footer">Thank you, your responses are genuinely valuable to this research.</div>
   </form>
-
-  <!-- Thank You -->
-  <div class="thank-you" id="thankYou">
-    <h2>Thank you</h2>
-    <p>Your responses are genuinely valuable to this research.</p>
-  </div>
-
 </div>
-
+<div class="success" id="success"><div><div class="seal"><svg viewBox="0 0 24 24"><polyline points="4 12 10 18 20 6"/></svg></div><h2>Thank you</h2><p>Your responses have been received and will be anonymised before analysis. You may now close this page.</p></div></div>
 <script>
-  // Country toggle
-  function selectCountry(btn) {
-    document.querySelectorAll('.country-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    const countrySelect = document.querySelector('select[name="country"]');
-    const val = btn.dataset.country;
-    for (let opt of countrySelect.options) {
-      if (opt.value === val) { countrySelect.value = val; break; }
-    }
-    updateProgress();
-  }
-
-  // Progress tracking
-  function updateProgress() {
-    const textareas = document.querySelectorAll('textarea');
-    const selects = document.querySelectorAll('select[required]');
-    let filled = 0, total = textareas.length + selects.length;
-    textareas.forEach(t => { if (t.value.trim()) filled++; });
-    selects.forEach(s => { if (s.value) filled++; });
-    const pct = Math.round((filled / total) * 100);
-    document.getElementById('progressFill').style.width = pct + '%';
-    document.getElementById('progressLabel').textContent = pct + '% complete';
-  }
-
-  document.querySelectorAll('textarea, select').forEach(el => {
-    el.addEventListener('input', updateProgress);
-    el.addEventListener('change', updateProgress);
-  });
-
-  // Submit
-  document.getElementById('interviewForm').addEventListener('submit', async function(e) {
-    e.preventDefault();
-    const formData = new FormData(this);
-    try {
-      const resp = await fetch(this.action, {
-        method: 'POST',
-        body: formData,
-        headers: { 'Accept': 'application/json' }
-      });
-      if (resp.ok) {
-        document.getElementById('formContent').classList.add('hidden');
-        document.getElementById('thankYou').classList.add('show');
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      }
-    } catch (err) {
-      alert('Something went wrong. Please try again.');
-    }
-  });
-
-  updateProgress();
+  const STORE='oim_hr_v3';
+  const form=document.getElementById('form');
+  const toggle=document.getElementById('toggle'),slider=document.getElementById('slider'),countryInput=document.getElementById('country'),btns=[...toggle.querySelectorAll('button')];
+  function placeSlider(b){slider.style.width=b.offsetWidth+'px';slider.style.transform='translateX('+(b.offsetLeft-5)+'px)';}
+  function setCountry(b){btns.forEach(x=>x.classList.remove('active'));b.classList.add('active');countryInput.value=b.dataset.country;placeSlider(b);save();}
+  btns.forEach(b=>b.addEventListener('click',()=>setCountry(b)));
+  window.addEventListener('load',()=>placeSlider(toggle.querySelector('.active')));
+  window.addEventListener('resize',()=>placeSlider(toggle.querySelector('.active')));
+  const areas=[...document.querySelectorAll('textarea')];
+  function grow(t){t.style.height='auto';t.style.height=t.scrollHeight+'px';}
+  function engage(t){const q=t.closest('.q');if(!q)return;const main=q.querySelector('textarea');if(main&&main.value.trim().length>0)q.classList.add('engaged');else q.classList.remove('engaged');}
+  areas.forEach(t=>t.addEventListener('input',()=>{grow(t);engage(t);save();updateProgress();}));
+  areas.forEach(t=>t.addEventListener('focus',()=>{const q=t.closest('.q');if(q)q.classList.add('engaged');}));
+  const allReq=[...form.querySelectorAll('textarea[required]')];
+  const consent=[...form.querySelectorAll('input[type=checkbox][required]')];
+  function updateProgress(){const f=allReq.filter(t=>t.value.trim().length>3).length;const c=consent.filter(x=>x.checked).length;document.getElementById('bar').style.width=Math.round(((f+c)/(allReq.length+consent.length))*100)+'%';}
+  consent.forEach(c=>c.addEventListener('change',()=>{save();updateProgress();}));
+  let saveTimer;
+  function save(){const d={};form.querySelectorAll('textarea,input[type=text],input[type=date],select').forEach(el=>{if(el.name)d[el.name]=el.value;});form.querySelectorAll('input[type=checkbox]').forEach(el=>{if(el.name)d['cb__'+el.name]=el.checked;});d.__country=countryInput.value;try{localStorage.setItem(STORE,JSON.stringify(d));}catch(e){}clearTimeout(saveTimer);const n=document.getElementById('saveNote');n.textContent='Draft saved';n.style.opacity='1';saveTimer=setTimeout(()=>n.style.opacity='0',1600);}
+  function restore(){let raw;try{raw=localStorage.getItem(STORE);}catch(e){}if(!raw)return;try{const d=JSON.parse(raw);form.querySelectorAll('textarea,input[type=text],input[type=date],select').forEach(el=>{if(el.name&&d[el.name]!=null)el.value=d[el.name];});form.querySelectorAll('input[type=checkbox]').forEach(el=>{if(el.name&&d['cb__'+el.name]!=null)el.checked=d['cb__'+el.name];});if(d.__country){const b=btns.find(x=>x.dataset.country===d.__country);if(b){btns.forEach(x=>x.classList.remove('active'));b.classList.add('active');countryInput.value=d.__country;}}areas.forEach(t=>{grow(t);engage(t);});}catch(e){}}
+  restore();updateProgress();
+  form.addEventListener('submit',async e=>{e.preventDefault();const b=document.getElementById('submitBtn');b.disabled=true;b.textContent='Submitting…';try{const r=await fetch(form.action,{method:'POST',body:new FormData(form),headers:{'Accept':'application/json'}});if(r.ok){try{localStorage.removeItem(STORE);}catch(e){}document.getElementById('success').classList.add('show');window.scrollTo({top:0,behavior:'smooth'});}else{throw new Error('fail');}}catch(err){b.disabled=false;b.textContent='Submit responses';alert('Something went wrong submitting your responses. Please check your connection and try again.');}});
 </script>
 </body>
 </html>
